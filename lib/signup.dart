@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
+import 'driver_form_nav.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -94,9 +95,10 @@ class _SignupFormState extends State<SignupForm> {
     return Form(
       key: formKey,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 20),
         child: Column(
-          spacing: 25,
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 20,
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 30, bottom: 15),
@@ -108,27 +110,12 @@ class _SignupFormState extends State<SignupForm> {
                 ),
               ),
             ),
-            TextFormField(
-              style: GoogleFonts.inter(fontSize: 17),
-              keyboardType: const TextInputType.numberWithOptions(),
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                LengthLimitingTextInputFormatter(9),
-                PhoneNumberInputFormatter(),
-              ],
-              controller: phoneNumController,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.phone_rounded),
-                prefixText: '+251 ',
-                labelText: 'Phone Number',
-                border: OutlineInputBorder(),
-              ),
-            ),
+            PhoneNumTextField(phoneNumController: phoneNumController),
             SizedBox(
               width: double.infinity,
               height: 48,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: _openDriverFormNavigator,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue.shade700,
                   shape: RoundedRectangleBorder(
@@ -161,9 +148,9 @@ class _SignupFormState extends State<SignupForm> {
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SignInButton(icon: 'facebook'),
-                SignInButton(icon: 'google'),
-                SignInButton(icon: 'telegram'),
+                SignInWithButton(icon: 'facebook'),
+                SignInWithButton(icon: 'google'),
+                SignInWithButton(icon: 'telegram'),
               ],
             ),
           ],
@@ -171,12 +158,50 @@ class _SignupFormState extends State<SignupForm> {
       ),
     );
   }
+
+  _openDriverFormNavigator() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const DriverFormNavigator(),
+      ),
+    );
+  }
 }
 
-class SignInButton extends StatelessWidget {
+class PhoneNumTextField extends StatelessWidget {
+  const PhoneNumTextField({
+    super.key,
+    required this.phoneNumController,
+  });
+
+  final TextEditingController phoneNumController;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      style: GoogleFonts.inter(fontSize: 17),
+      keyboardType: const TextInputType.numberWithOptions(),
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(9),
+        PhoneNumberInputFormatter(),
+      ],
+      controller: phoneNumController,
+      decoration: const InputDecoration(
+        prefixIcon: Icon(Icons.phone_rounded),
+        prefixText: '+251 ',
+        labelText: 'Phone Number',
+        border: OutlineInputBorder(),
+      ),
+    );
+  }
+}
+
+class SignInWithButton extends StatelessWidget {
   final String icon;
 
-  const SignInButton({super.key, required this.icon});
+  const SignInWithButton({super.key, required this.icon});
 
   @override
   Widget build(BuildContext context) {
