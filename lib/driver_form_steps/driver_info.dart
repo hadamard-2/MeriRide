@@ -37,9 +37,9 @@ class _DriverInfoFormState extends State<DriverInfoForm> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 40),
+      padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 50),
       child: Column(
-        spacing: 25,
+        spacing: 20,
         children: [
           Stack(
             children: [

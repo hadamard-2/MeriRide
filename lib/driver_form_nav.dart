@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'driver_form_steps/vehicle_info.dart';
+import 'driver_form_steps/vehicle_info.dart';
 import 'driver_form_steps/driver_info.dart';
 // import 'driver_form_steps/documents.dart';
 
@@ -32,8 +32,8 @@ class _DriverFormNavigatorState extends State<DriverFormNavigator> {
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: Row(
                 children: [
-                  ProgressIndicator(title: 'Driver Info', active: true),
-                  ProgressIndicator(title: 'Vehicle Info'),
+                  ProgressIndicator(title: 'Driver Info'),
+                  ProgressIndicator(title: 'Vehicle Info', active: true),
                   ProgressIndicator(title: 'Documents'),
                 ],
               ),
@@ -64,7 +64,7 @@ class _DriverFormNavigatorState extends State<DriverFormNavigator> {
                     child: Form(
                       key: _formKey,
                       child:
-                          const SingleChildScrollView(child: DriverInfoForm()),
+                          const SingleChildScrollView(child: VehicleInfoForm()),
                     ),
                   ),
                   Expanded(
@@ -84,6 +84,7 @@ class _DriverFormNavigatorState extends State<DriverFormNavigator> {
                           child: const Text(
                             'Next',
                             style: TextStyle(
+                              fontSize: 16,
                               color: Colors.white,
                               fontWeight: FontWeight.w600,
                             ),
@@ -138,7 +139,7 @@ class _ProgressIndicatorState extends State<ProgressIndicator> {
                 color: widget.active ? Colors.blue : Colors.grey,
                 borderRadius: BorderRadius.circular(2.25),
               ),
-            )
+            ),
           ],
         ),
       ),

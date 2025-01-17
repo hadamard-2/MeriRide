@@ -101,7 +101,7 @@ class _SignupFormState extends State<SignupForm> {
           spacing: 20,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 30, bottom: 15),
+              padding: const EdgeInsets.symmetric(vertical: 15),
               child: Text(
                 'MeriRide',
                 style: GoogleFonts.titilliumWeb(

@@ -16,6 +16,10 @@ class MyApp extends StatelessWidget {
       home: const SignupPage(),
       theme: ThemeData(
         textTheme: GoogleFonts.interTextTheme(),
+        inputDecorationTheme: const InputDecorationTheme(
+          labelStyle: TextStyle(fontSize: 15),
+        ),
+        iconTheme: const IconThemeData(size: 16),
         useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
