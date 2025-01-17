@@ -6,63 +6,59 @@ class VehicleInfoForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(45),
-      child: Column(
-        spacing: 25,
-        children: [
-          Row(
-            children: [
-              Text(
-                'Vehicle',
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-          Row(
-            spacing: 20,
-            children: [
-              MyTextField(text: 'Make', prefixIcon: Icon(Icons.directions_car)),
-              MyTextField(
-                  text: 'Model', prefixIcon: Icon(Icons.directions_car)),
-            ],
-          ),
-          Row(
-            spacing: 20,
-            children: [
-              MyTextField(text: 'Color', prefixIcon: Icon(Icons.color_lens)),
-              MyTextField(text: 'Year', prefixIcon: Icon(Icons.calendar_today)),
-            ],
-          ),
-          Divider(),
-          Row(
-            children: [
-              Text(
-                'License',
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-          Row(
-            spacing: 20,
-            children: [
-              MyTextField(
-                  text: 'License No.', prefixIcon: Icon(Icons.numbers_rounded)),
-              MyTextField(
-                  text: 'License Plate',
-                  prefixIcon: Icon(Icons.confirmation_num_rounded)),
-            ],
-          ),
-          CountryPicker(labelText: 'License Country'),
-          Row(
-            spacing: 20,
-            children: [
-              DatePicker(labelText: 'License Issue Date'),
-              DatePicker(labelText: 'License Expiry Date'),
-            ],
-          ),
-        ],
-      ),
+    return const Column(
+      spacing: 20,
+      children: [
+        Row(
+          children: [
+            Text(
+              'Vehicle',
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
+        Row(
+          spacing: 20,
+          children: [
+            MyTextField(text: 'Make', prefixIcon: Icon(Icons.directions_car)),
+            MyTextField(text: 'Model', prefixIcon: Icon(Icons.garage_rounded)),
+          ],
+        ),
+        Row(
+          spacing: 20,
+          children: [
+            MyTextField(text: 'Color', prefixIcon: Icon(Icons.color_lens)),
+            MyTextField(text: 'Year', prefixIcon: Icon(Icons.calendar_today)),
+          ],
+        ),
+        Divider(),
+        Row(
+          children: [
+            Text(
+              'License',
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
+        Row(
+          spacing: 20,
+          children: [
+            MyTextField(
+                text: 'License No.', prefixIcon: Icon(Icons.numbers_rounded)),
+            MyTextField(
+                text: 'License Plate',
+                prefixIcon: Icon(Icons.confirmation_num_rounded)),
+          ],
+        ),
+        CountryPicker(labelText: 'License Country'),
+        Row(
+          spacing: 20,
+          children: [
+            DatePicker(labelText: 'License Issue Date'),
+            DatePicker(labelText: 'License Expiry Date'),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -196,7 +192,9 @@ class DatePickerState extends State<DatePicker> {
               children: [
                 const Icon(Icons.calendar_today, size: 20),
                 const SizedBox(width: 8),
-                Text("${selectedDate.toLocal()}".split(' ')[0]),
+                Text(
+                  "${selectedDate.toLocal()}".split(' ')[0],
+                ),
               ],
             ),
           ),

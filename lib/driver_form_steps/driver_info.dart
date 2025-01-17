@@ -36,115 +36,112 @@ class _DriverInfoFormState extends State<DriverInfoForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 50),
-      child: Column(
-        spacing: 20,
-        children: [
-          Stack(
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.grey.shade400,
-                radius: 75,
-                child: Icon(
-                  Icons.person_rounded,
-                  color: Colors.grey.shade200,
-                  size: 105,
-                ),
+    return Column(
+      spacing: 20,
+      children: [
+        Stack(
+          children: [
+            CircleAvatar(
+              backgroundColor: Colors.grey.shade400,
+              radius: 60,
+              child: Icon(
+                Icons.person_rounded,
+                color: Colors.grey.shade50,
+                size: 90,
               ),
-              Positioned(
-                top: 0,
-                right: 0,
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.add_rounded,
-                    size: 30,
-                    color: Colors.grey.shade200,
-                  ),
-                  style: IconButton.styleFrom(
-                    backgroundColor: Colors.grey.shade400,
-                    shape: CircleBorder(
-                      side: BorderSide(color: Colors.grey.shade200, width: 2.5),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(),
-          Row(
-            spacing: 20,
-            children: [
-              Expanded(
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.person_rounded),
-                    labelText: 'First Name',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.person_rounded),
-                    labelText: 'Last Name',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          PhoneNumTextField(phoneNumController: phoneNumController),
-          DropdownButtonFormField(
-            hint: const Text('City'),
-            items: cities.map((String value) {
-              return DropdownMenuItem(value: value, child: Text(value));
-            }).toList(),
-            onChanged: (newValue) {
-              setState(() {
-                currentValue = newValue.toString();
-              });
-            },
-            decoration: const InputDecoration(
-              prefixIcon: Icon(Icons.location_on_rounded),
-              border: OutlineInputBorder(),
             ),
-          ),
-          const Divider(thickness: 1.5),
-          TextFormField(
-            obscureText: !passwordVisible,
-            decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.lock_rounded),
-              suffixIcon: InkWell(
-                  onTap: () {
-                    setState(() {
-                      passwordVisible = !passwordVisible;
-                    });
-                  },
-                  child: const Icon(Icons.visibility_rounded)),
-              labelText: 'Password',
-              border: const OutlineInputBorder(),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.add_rounded,
+                  size: 22,
+                  color: Colors.grey.shade50,
+                ),
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.grey.shade400,
+                  shape: CircleBorder(
+                    side: BorderSide(color: Colors.grey.shade50, width: 2.5),
+                  ),
+                ),
+              ),
             ),
-          ),
-          TextFormField(
-            obscureText: !passwordVisible,
-            decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.lock_rounded),
-              suffixIcon: InkWell(
-                  onTap: () {
-                    setState(() {
-                      passwordVisible = !passwordVisible;
-                    });
-                  },
-                  child: const Icon(Icons.visibility_rounded)),
-              labelText: 'Confirm Password',
-              border: const OutlineInputBorder(),
+          ],
+        ),
+        const SizedBox(),
+        Row(
+          spacing: 20,
+          children: [
+            Expanded(
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.person_rounded),
+                  labelText: 'First Name',
+                  border: OutlineInputBorder(),
+                ),
+              ),
             ),
+            Expanded(
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.person_rounded),
+                  labelText: 'Last Name',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+          ],
+        ),
+        PhoneNumTextField(phoneNumController: phoneNumController),
+        DropdownButtonFormField(
+          hint: const Text('City', style: TextStyle(fontSize: 14.5)),
+          items: cities.map((String value) {
+            return DropdownMenuItem(value: value, child: Text(value));
+          }).toList(),
+          onChanged: (newValue) {
+            setState(() {
+              currentValue = newValue.toString();
+            });
+          },
+          decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.location_on_rounded),
+            border: OutlineInputBorder(),
           ),
-        ],
-      ),
+        ),
+        const Divider(thickness: 1.5),
+        TextFormField(
+          obscureText: !passwordVisible,
+          decoration: InputDecoration(
+            prefixIcon: const Icon(Icons.lock_rounded),
+            suffixIcon: InkWell(
+                onTap: () {
+                  setState(() {
+                    passwordVisible = !passwordVisible;
+                  });
+                },
+                child: const Icon(Icons.visibility_rounded)),
+            labelText: 'Password',
+            border: const OutlineInputBorder(),
+          ),
+        ),
+        TextFormField(
+          obscureText: !passwordVisible,
+          decoration: InputDecoration(
+            prefixIcon: const Icon(Icons.lock_rounded),
+            suffixIcon: InkWell(
+                onTap: () {
+                  setState(() {
+                    passwordVisible = !passwordVisible;
+                  });
+                },
+                child: const Icon(Icons.visibility_rounded)),
+            labelText: 'Confirm Password',
+            border: const OutlineInputBorder(),
+          ),
+        ),
+      ],
     );
   }
 }

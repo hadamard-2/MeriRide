@@ -189,6 +189,7 @@ class PhoneNumTextField extends StatelessWidget {
       ],
       controller: phoneNumController,
       decoration: const InputDecoration(
+        labelStyle: TextStyle(fontSize: 15),
         prefixIcon: Icon(Icons.phone_rounded),
         prefixText: '+251 ',
         labelText: 'Phone Number',

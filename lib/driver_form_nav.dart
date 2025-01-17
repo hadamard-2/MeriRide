@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'driver_form_steps/vehicle_info.dart';
 import 'driver_form_steps/driver_info.dart';
-// import 'driver_form_steps/documents.dart';
+import 'driver_form_steps/documents.dart';
 
 class DriverFormNavigator extends StatefulWidget {
   const DriverFormNavigator({super.key});
@@ -12,88 +12,66 @@ class DriverFormNavigator extends StatefulWidget {
 
 class _DriverFormNavigatorState extends State<DriverFormNavigator> {
   final _formKey = GlobalKey<FormState>();
+  int _index = 0;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey.shade200,
-      appBar: AppBar(
-        backgroundColor: Colors.grey.shade200,
-        title: const Text(
-          'Driver Registration',
-          style: TextStyle(fontSize: 19),
-        ),
-      ),
-      body: Column(
+  goNext() {
+    setState(() {
+      _index++;
+    });
+  }
+
+  goBack() {
+    setState(() {
+      _index--;
+    });
+  }
+
+  Widget _driverFormCustomControls() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        spacing: 10,
         children: [
-          const Expanded(
-            flex: 1,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                children: [
-                  ProgressIndicator(title: 'Driver Info'),
-                  ProgressIndicator(title: 'Vehicle Info', active: true),
-                  ProgressIndicator(title: 'Documents'),
-                ],
+          if (_index > 0)
+            Expanded(
+              flex: 2,
+              child: SizedBox(
+                height: 45,
+                child: IconButton(
+                  onPressed: _index > 0 ? goBack : null,
+                  icon: const Icon(
+                    Icons.arrow_back_rounded,
+                  ),
+                  iconSize: 25,
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shape: const RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
           Expanded(
-            flex: 4,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(27),
-                  topRight: Radius.circular(27),
+            flex: 10,
+            child: SizedBox(
+              height: 45,
+              child: ElevatedButton(
+                onPressed: _index < 2 ? goNext : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue.shade700,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6),
+                  ),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    spreadRadius: 3,
-                    blurRadius: 4,
-                    offset: Offset(0, 3),
+                child: Text(
+                  _index < 2 ? 'NEXT' : 'FINISH',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
                   ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 8,
-                    child: Form(
-                      key: _formKey,
-                      child:
-                          const SingleChildScrollView(child: VehicleInfoForm()),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue.shade700,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                          ),
-                          child: const Text(
-                            'Next',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
@@ -101,45 +79,88 @@ class _DriverFormNavigatorState extends State<DriverFormNavigator> {
       ),
     );
   }
-}
 
-class ProgressIndicator extends StatefulWidget {
-  final String title;
-  final bool active;
-
-  const ProgressIndicator(
-      {super.key, required this.title, this.active = false});
-
-  @override
-  State<ProgressIndicator> createState() => _ProgressIndicatorState();
-}
-
-class _ProgressIndicatorState extends State<ProgressIndicator> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Driver Registration',
+          style: TextStyle(fontSize: 19),
+        ),
+      ),
+      body: Form(
+        key: _formKey,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 12,
           children: [
-            Text(
-              widget.title,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontWeight: widget.active ? FontWeight.bold : FontWeight.normal,
-                color: widget.active ? Colors.blue : Colors.grey,
-                fontSize: 17,
+            Expanded(
+              flex: 10,
+              child: Stepper(
+                type: StepperType.horizontal,
+                elevation: 0,
+                stepIconBuilder: (index, stepState) {
+                  if (index == 0) {
+                    return const Icon(
+                      Icons.person_rounded,
+                      color: Colors.white,
+                    );
+                  } else if (index == 1) {
+                    return const Icon(
+                      Icons.directions_car_rounded,
+                      color: Colors.white,
+                    );
+                  } else {
+                    return const Icon(
+                      Icons.file_present_rounded,
+                      color: Colors.white,
+                    );
+                  }
+                },
+                controlsBuilder: (context, details) => Container(),
+                currentStep: _index,
+                onStepTapped: (int index) {
+                  setState(() {
+                    _index = index;
+                  });
+                },
+                steps: [
+                  Step(
+                    title: const Text(
+                      '',
+                      style: TextStyle(overflow: TextOverflow.ellipsis),
+                    ),
+                    isActive: _index == 0,
+                    content: const Padding(
+                      padding: EdgeInsets.only(left: 36, right: 36, bottom: 20),
+                      child: DriverInfoForm(),
+                    ),
+                  ),
+                  Step(
+                      title: const Text(
+                        '',
+                        style: TextStyle(overflow: TextOverflow.ellipsis),
+                      ),
+                      isActive: _index == 1,
+                      content: const Padding(
+                        padding:
+                            EdgeInsets.only(left: 36, right: 36, bottom: 20),
+                        child: VehicleInfoForm(),
+                      )),
+                  Step(
+                      title: const Text(
+                        '',
+                        style: TextStyle(overflow: TextOverflow.ellipsis),
+                      ),
+                      isActive: _index == 2,
+                      content: const Padding(
+                        padding:
+                            EdgeInsets.only(left: 36, right: 36, bottom: 20),
+                        child: Documents(),
+                      )),
+                ],
               ),
             ),
-            Container(
-              height: 4.5,
-              decoration: BoxDecoration(
-                color: widget.active ? Colors.blue : Colors.grey,
-                borderRadius: BorderRadius.circular(2.25),
-              ),
-            ),
+            Expanded(flex: 1, child: _driverFormCustomControls())
           ],
         ),
       ),

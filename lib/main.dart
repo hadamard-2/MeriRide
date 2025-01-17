@@ -17,11 +17,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.interTextTheme(),
         inputDecorationTheme: const InputDecorationTheme(
-          labelStyle: TextStyle(fontSize: 15),
+          labelStyle: TextStyle(fontSize: 14.5),
         ),
         iconTheme: const IconThemeData(size: 16),
         useMaterial3: true,
-        primarySwatch: Colors.blue,
+        colorSchemeSeed: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
     );
