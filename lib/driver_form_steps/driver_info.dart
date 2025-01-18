@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meri_ride/signup.dart';
+import 'package:meri_ride/phone_num_text_field.dart';
 
 class DriverInfoForm extends StatefulWidget {
   const DriverInfoForm({super.key});
@@ -44,9 +44,9 @@ class _DriverInfoFormState extends State<DriverInfoForm> {
             CircleAvatar(
               backgroundColor: Colors.grey.shade400,
               radius: 60,
-              child: Icon(
+              child: const Icon(
                 Icons.person_rounded,
-                color: Colors.grey.shade50,
+                color: Colors.white,
                 size: 90,
               ),
             ),
@@ -55,15 +55,15 @@ class _DriverInfoFormState extends State<DriverInfoForm> {
               right: 0,
               child: IconButton(
                 onPressed: () {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.add_rounded,
                   size: 22,
-                  color: Colors.grey.shade50,
+                  color: Colors.white,
                 ),
                 style: IconButton.styleFrom(
                   backgroundColor: Colors.grey.shade400,
-                  shape: CircleBorder(
-                    side: BorderSide(color: Colors.grey.shade50, width: 2.5),
+                  shape: const CircleBorder(
+                    side: BorderSide(color: Colors.white, width: 2.5),
                   ),
                 ),
               ),

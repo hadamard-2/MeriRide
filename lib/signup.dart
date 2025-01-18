@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
-import 'driver_form_nav.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:meri_ride/phone_num_text_field.dart';
+import 'package:meri_ride/driver_form_nav.dart';
 
-class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _SignUpState extends State<SignUp> {
   int _currentImageIndex = 1;
   late Timer _timer;
 
@@ -117,7 +118,7 @@ class _SignupFormState extends State<SignupForm> {
               child: ElevatedButton(
                 onPressed: _openDriverFormNavigator,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue.shade700,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(6),
                   ),
@@ -164,36 +165,6 @@ class _SignupFormState extends State<SignupForm> {
       context,
       MaterialPageRoute(
         builder: (context) => const DriverFormNavigator(),
-      ),
-    );
-  }
-}
-
-class PhoneNumTextField extends StatelessWidget {
-  const PhoneNumTextField({
-    super.key,
-    required this.phoneNumController,
-  });
-
-  final TextEditingController phoneNumController;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      style: GoogleFonts.inter(fontSize: 17),
-      keyboardType: const TextInputType.numberWithOptions(),
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-        LengthLimitingTextInputFormatter(9),
-        PhoneNumberInputFormatter(),
-      ],
-      controller: phoneNumController,
-      decoration: const InputDecoration(
-        labelStyle: TextStyle(fontSize: 15),
-        prefixIcon: Icon(Icons.phone_rounded),
-        prefixText: '+251 ',
-        labelText: 'Phone Number',
-        border: OutlineInputBorder(),
       ),
     );
   }

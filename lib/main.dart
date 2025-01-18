@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'signup.dart';
+import 'package:meri_ride/signup.dart';
+import 'package:meri_ride/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +14,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MeriRide',
-      home: const SignupPage(),
       theme: ThemeData(
         textTheme: GoogleFonts.interTextTheme(),
         inputDecorationTheme: const InputDecorationTheme(
@@ -24,6 +24,8 @@ class MyApp extends StatelessWidget {
         colorSchemeSeed: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
+      home: const SignUp(),
+      // home: const Home(),
     );
   }
 }

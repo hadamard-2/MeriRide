@@ -25,8 +25,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
   project.set_dart_entrypoint_arguments(std::move(command_line_arguments));
 
   FlutterWindow window(project);
-  Win32Window::Point origin(880, 0);
-  Win32Window::Size size(400, 1200);
+  Win32Window::Point origin(870, 0);
+  Win32Window::Size size(410, 1200);
   if (!window.Create(L"meri_ride", origin, size)) {
     return EXIT_FAILURE;
   }

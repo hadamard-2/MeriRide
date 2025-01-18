@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:meri_ride/my_text_field.dart';
 
 class VehicleInfoForm extends StatelessWidget {
   const VehicleInfoForm({super.key});
@@ -7,7 +8,7 @@ class VehicleInfoForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Column(
-      spacing: 20,
+      spacing: 25,
       children: [
         Row(
           children: [
@@ -59,26 +60,6 @@ class VehicleInfoForm extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-}
-
-class MyTextField extends StatelessWidget {
-  final String text;
-  final Icon prefixIcon;
-
-  const MyTextField({super.key, required this.text, required this.prefixIcon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: TextFormField(
-        decoration: InputDecoration(
-          prefixIcon: prefixIcon,
-          labelText: text,
-          border: const OutlineInputBorder(),
-        ),
-      ),
     );
   }
 }
@@ -192,9 +173,7 @@ class DatePickerState extends State<DatePicker> {
               children: [
                 const Icon(Icons.calendar_today, size: 20),
                 const SizedBox(width: 8),
-                Text(
-                  "${selectedDate.toLocal()}".split(' ')[0],
-                ),
+                Text("${selectedDate.toLocal()}".split(' ')[0]),
               ],
             ),
           ),
