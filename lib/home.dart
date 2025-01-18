@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dotted_dashed_line/dotted_dashed_line.dart';
+import 'package:meri_ride/custom_drawer.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -9,14 +10,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String driverStatus = '';
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool switchVal = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // background color is a placeholder for the map
       backgroundColor: Colors.blueGrey,
+
+      key: _scaffoldKey,
+      drawer: const CustomDrawer(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
         child: Column(
@@ -43,7 +47,9 @@ class _HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  _scaffoldKey.currentState?.openDrawer();
+                },
                 icon: const Icon(Icons.menu_rounded, size: 27),
               ),
               Text(

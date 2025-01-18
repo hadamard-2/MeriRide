@@ -19,13 +19,12 @@ class MyApp extends StatelessWidget {
         inputDecorationTheme: const InputDecorationTheme(
           labelStyle: TextStyle(fontSize: 14.5),
         ),
-        iconTheme: const IconThemeData(size: 16),
         useMaterial3: true,
         colorSchemeSeed: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: const SignUp(),
-      // home: const Home(),
+      // home: const SignUp(),
+      home: const Home(),
     );
   }
 }

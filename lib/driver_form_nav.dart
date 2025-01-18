@@ -28,7 +28,7 @@ class _DriverFormNavigatorState extends State<DriverFormNavigator> {
   }
 
   goHome() {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => const Home(),
