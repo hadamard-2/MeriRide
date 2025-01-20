@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:meri_ride/signup.dart';
+import 'package:meri_ride/user_auth.dart';
 import 'package:meri_ride/home.dart';
 
 void main() {
@@ -19,12 +19,14 @@ class MyApp extends StatelessWidget {
         inputDecorationTheme: const InputDecorationTheme(
           labelStyle: TextStyle(fontSize: 14.5),
         ),
+        iconTheme: const IconThemeData(size: 16),
         useMaterial3: true,
         colorSchemeSeed: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      // home: const SignUp(),
-      home: const Home(),
+      home: const UserAuth(),
+      // home: const Home(),
+      // home: const SignInDemo(),
     );
   }
 }

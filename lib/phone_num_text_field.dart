@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:meri_ride/signup.dart';
+import 'package:meri_ride/user_auth.dart';
 
 class PhoneNumTextField extends StatelessWidget {
   const PhoneNumTextField({

@@ -39,27 +39,30 @@ class CustomDrawer extends StatelessWidget {
               color: Theme.of(context).primaryColor,
             ),
           ),
-          ListTile(
-            leading: const Icon(Icons.person_rounded),
-            title: Text('Profile', style: textTheme.bodyLarge),
+          MyListTile(
+            textTheme: textTheme,
+            text: 'Profile',
+            leadingIconData: Icons.person_rounded,
             onTap: () {
               // Handle profile tap
               Navigator.pop(context);
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.history_rounded),
-            title: Text('History', style: textTheme.bodyLarge),
+          MyListTile(
+            textTheme: textTheme,
+            text: 'History',
+            leadingIconData: Icons.history_rounded,
             onTap: () {
               // Handle history tap
               Navigator.pop(context);
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.attach_money_rounded),
-            title: Text('Earnings', style: textTheme.bodyLarge),
+          MyListTile(
+            textTheme: textTheme,
+            text: 'Earnings',
+            leadingIconData: Icons.attach_money_rounded,
             onTap: () {
-              // Handle earnings tap
+              // Handle profile tap
               Navigator.pop(context);
             },
           ),
@@ -67,24 +70,53 @@ class CustomDrawer extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Divider(height: 1),
           ),
-          ListTile(
-            leading: const Icon(Icons.privacy_tip_rounded),
-            title: Text('Privacy Policy', style: textTheme.bodyLarge),
+          MyListTile(
+            textTheme: textTheme,
+            text: 'Privacy Policy',
+            leadingIconData: Icons.privacy_tip_rounded,
             onTap: () {
               // Handle privacy policy tap
               Navigator.pop(context);
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.feedback_rounded),
-            title: Text('Feedback', style: textTheme.bodyLarge),
+          MyListTile(
+            textTheme: textTheme,
+            text: 'Feedback',
+            leadingIconData: Icons.feedback_rounded,
             onTap: () {
-              // Handle feedback tap
+              // Handle profile tap
               Navigator.pop(context);
             },
           ),
         ],
       ),
+    );
+  }
+}
+
+class MyListTile extends StatelessWidget {
+  const MyListTile({
+    super.key,
+    required this.textTheme,
+    required this.text,
+    required this.leadingIconData,
+    required this.onTap,
+  });
+
+  final TextTheme textTheme;
+  final String text;
+  final IconData leadingIconData;
+  final void Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      leading: Icon(leadingIconData, size: 24),
+      title: Text(text, style: textTheme.bodyLarge),
+      onTap: onTap,
     );
   }
 }

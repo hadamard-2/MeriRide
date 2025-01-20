@@ -5,14 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:meri_ride/phone_num_text_field.dart';
 import 'package:meri_ride/driver_form_nav.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+class UserAuth extends StatefulWidget {
+  const UserAuth({super.key});
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<UserAuth> createState() => _UserAuthState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _UserAuthState extends State<UserAuth> {
   int _currentImageIndex = 1;
   late Timer _timer;
 
@@ -71,7 +71,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ],
               ),
-              child: const SignupForm(),
+              child: const UserAuthForm(),
             ),
           ),
         ],
@@ -80,14 +80,14 @@ class _SignUpState extends State<SignUp> {
   }
 }
 
-class SignupForm extends StatefulWidget {
-  const SignupForm({super.key});
+class UserAuthForm extends StatefulWidget {
+  const UserAuthForm({super.key});
 
   @override
-  State<SignupForm> createState() => _SignupFormState();
+  State<UserAuthForm> createState() => _UserAuthFormState();
 }
 
-class _SignupFormState extends State<SignupForm> {
+class _UserAuthFormState extends State<UserAuthForm> {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
@@ -146,12 +146,12 @@ class _SignupFormState extends State<SignupForm> {
                 ),
               ],
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SignInWithButton(icon: 'facebook'),
-                SignInWithButton(icon: 'google'),
-                SignInWithButton(icon: 'telegram'),
+                SignInWithButton(icon: 'facebook', onPressed: () {},),
+                SignInWithButton(icon: 'google', onPressed: () {},),
+                SignInWithButton(icon: 'telegram', onPressed: () {},),
               ],
             ),
           ],
@@ -172,8 +172,9 @@ class _SignupFormState extends State<SignupForm> {
 
 class SignInWithButton extends StatelessWidget {
   final String icon;
+  final void Function()? onPressed;
 
-  const SignInWithButton({super.key, required this.icon});
+  const SignInWithButton({super.key, required this.icon, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
