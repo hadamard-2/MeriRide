@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "271805956885",
+    "project_id": "meri-ride-app",
+    "storage_bucket": "meri-ride-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271805956885:android:7a5fa1e9ae6bc5c12d9f1c",
+        "android_client_info": {
+          "package_name": "com.example.meri_ride"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmr3XWCd4lBZ35APOBtoaf68qavxodgqs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meri_ride/phone_num_text_field.dart';
 import 'package:meri_ride/driver_form_nav.dart';
+import 'package:meri_ride/services/auth_service.dart';
 
 class UserAuth extends StatefulWidget {
   const UserAuth({super.key});
@@ -149,9 +150,14 @@ class _UserAuthFormState extends State<UserAuthForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SignInWithButton(icon: 'facebook', onPressed: () {},),
-                SignInWithButton(icon: 'google', onPressed: () {},),
-                SignInWithButton(icon: 'telegram', onPressed: () {},),
+                SignInWithButton(icon: 'facebook', onPressed: () {}),
+                SignInWithButton(
+                  icon: 'google',
+                  onPressed: () {
+                    AuthService().signInWithGoogle();
+                  },
+                ),
+                SignInWithButton(icon: 'telegram', onPressed: () {}),
               ],
             ),
           ],
@@ -174,12 +180,13 @@ class SignInWithButton extends StatelessWidget {
   final String icon;
   final void Function()? onPressed;
 
-  const SignInWithButton({super.key, required this.icon, required this.onPressed});
+  const SignInWithButton(
+      {super.key, required this.icon, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () {},
+      onPressed: onPressed,
       icon: Image.asset(
         'assets/images/$icon.png',
         width: 30,
