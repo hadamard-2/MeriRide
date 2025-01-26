@@ -51,30 +51,32 @@ class _DriverFormNavigatorState extends State<DriverFormNavigator> {
           children: [
             Expanded(
               flex: 10,
-              child: Stepper(
-                type: StepperType.horizontal,
-                elevation: 0,
-                stepIconBuilder: _stepIconBuilder,
-                controlsBuilder: (context, details) => Container(),
-                currentStep: _index,
-                onStepTapped: (int index) {
-                  setState(() {
-                    _index = index;
-                  });
-                },
-                steps: [
-                  Step(
-                    title: const Text(
-                      'Driver',
-                      style: TextStyle(overflow: TextOverflow.ellipsis),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Stepper(
+                  type: StepperType.horizontal,
+                  elevation: 0,
+                  stepIconBuilder: _stepIconBuilder,
+                  controlsBuilder: (context, details) => Container(),
+                  currentStep: _index,
+                  onStepTapped: (int index) {
+                    setState(() {
+                      _index = index;
+                    });
+                  },
+                  steps: [
+                    Step(
+                      title: const Text(
+                        'Driver',
+                        style: TextStyle(overflow: TextOverflow.ellipsis),
+                      ),
+                      isActive: _index == 0,
+                      content: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 27),
+                        child: DriverInfoForm(),
+                      ),
                     ),
-                    isActive: _index == 0,
-                    content: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 27),
-                      child: DriverInfoForm(),
-                    ),
-                  ),
-                  Step(
+                    Step(
                       title: const Text(
                         'Vehicle',
                         style: TextStyle(overflow: TextOverflow.ellipsis),
@@ -83,8 +85,9 @@ class _DriverFormNavigatorState extends State<DriverFormNavigator> {
                       content: const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 27),
                         child: VehicleInfoForm(),
-                      )),
-                  Step(
+                      ),
+                    ),
+                    Step(
                       title: const Text(
                         'Docs',
                         style: TextStyle(overflow: TextOverflow.ellipsis),
@@ -93,8 +96,10 @@ class _DriverFormNavigatorState extends State<DriverFormNavigator> {
                       content: const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 27),
                         child: Documents(),
-                      )),
-                ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Expanded(flex: 1, child: _driverFormCustomControls())

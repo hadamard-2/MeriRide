@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
 import 'package:meri_ride/my_text_field.dart';
 
 class Documents extends StatelessWidget {
@@ -7,20 +8,20 @@ class Documents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       spacing: 20,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
+        const Row(
           spacing: 20,
           children: [
             Flexible(child: FileBrowser(labelText: 'Vehicle Ownership')),
             Flexible(child: FileBrowser(labelText: 'Libre')),
           ],
         ),
-        Flexible(child: FileBrowser(labelText: 'Insurance')),
-        Divider(),
-        Row(
+        const Flexible(child: FileBrowser(labelText: 'Insurance')),
+        const Divider(),
+        const Row(
           spacing: 20,
           children: [
             Flexible(child: FileBrowser(labelText: 'Business Registration')),
@@ -28,23 +29,45 @@ class Documents extends StatelessWidget {
           ],
         ),
         MyTextField(
-            text: 'TIN', prefixIcon: Icon(Icons.account_balance_rounded))
+          text: 'TIN',
+          prefixIcon: const Icon(Icons.account_balance_rounded),
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(12),
+          ],
+          validator: validateTIN,
+        )
       ],
     );
+  }
+
+  String? validateTIN(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'TIN is required';
+    }
+    if (value.length != 12) {
+      return 'TIN must be exactly 12 characters';
+    }
+    return null;
   }
 }
 
 class FileBrowser extends StatefulWidget {
   final String labelText;
+  final int maxFileSize;
 
-  const FileBrowser({super.key, required this.labelText});
+  const FileBrowser({
+    super.key,
+    required this.labelText,
+    this.maxFileSize = 5 * 1024 * 1024, // Default to 5MB
+  });
 
   @override
   FileBrowserState createState() => FileBrowserState();
 }
 
 class FileBrowserState extends State<FileBrowser> {
-  late PlatformFile selectedFile;
+  PlatformFile? selectedFile;
 
   Future<void> _selectFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -53,9 +76,38 @@ class FileBrowserState extends State<FileBrowser> {
     );
 
     if (result != null) {
-      selectedFile = result.files.single;
+      PlatformFile file = result.files.single;
 
-      debugPrint(selectedFile.name);
+      if (file.size > widget.maxFileSize) {
+        // Convert bytes to MB for display
+        double maxSizeMB = widget.maxFileSize / (1024 * 1024);
+        String maxSizeStr =
+            maxSizeMB.toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '');
+
+        if (!mounted) return;
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('File too large'),
+            content: Text(
+              'The selected file exceeds the maximum allowed size of $maxSizeStr MB. '
+              'Please choose a smaller file.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+        return; // Disregard the file if it's too large
+      }
+
+      setState(() {
+        selectedFile = file;
+      });
+      debugPrint(selectedFile?.name);
     }
   }
 
@@ -75,12 +127,16 @@ class FileBrowserState extends State<FileBrowser> {
         ),
         child: InkWell(
           onTap: _selectFile,
-          child: const Row(
+          child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.description_rounded, size: 20),
-              SizedBox(width: 8),
-              Text('Select File'),
+              const Icon(Icons.description_rounded, size: 20),
+              const SizedBox(width: 8),
+              Text(
+                selectedFile != null
+                    ? '${selectedFile?.name.substring(0, 10)}...'
+                    : 'Select File',
+              ),
             ],
           ),
         ),

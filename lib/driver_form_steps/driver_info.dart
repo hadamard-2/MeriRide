@@ -3,14 +3,15 @@ import 'package:meri_ride/my_password_field.dart';
 import 'package:meri_ride/phone_num_text_field.dart';
 
 class DriverInfoForm extends StatefulWidget {
-  const DriverInfoForm({super.key});
+  final String? phoneNum;
+  const DriverInfoForm({super.key, this.phoneNum});
 
   @override
   State<DriverInfoForm> createState() => _DriverInfoFormState();
 }
 
 class _DriverInfoFormState extends State<DriverInfoForm> {
-  final phoneNumController = TextEditingController();
+  late TextEditingController phoneNumController;
   List<String> cities = [
     'Addis Ababa',
     'Semera',
@@ -32,6 +33,7 @@ class _DriverInfoFormState extends State<DriverInfoForm> {
   @override
   void initState() {
     super.initState();
+    phoneNumController = TextEditingController(text: widget.phoneNum);
     currentValue = cities[0];
   }
 
@@ -82,6 +84,16 @@ class _DriverInfoFormState extends State<DriverInfoForm> {
                   labelText: 'First Name',
                   border: OutlineInputBorder(),
                 ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'First name is required';
+                  } else if (value.trim().length < 3) {
+                    return 'First name must be at least 3 characters long';
+                  } else if (value.trim().length > 50) {
+                    return 'First name cannot be longer than 50 characters';
+                  }
+                  return null;
+                },
               ),
             ),
             Expanded(
@@ -91,6 +103,16 @@ class _DriverInfoFormState extends State<DriverInfoForm> {
                   labelText: 'Last Name',
                   border: OutlineInputBorder(),
                 ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Last name is required';
+                  } else if (value.trim().length < 3) {
+                    return 'Last name must be at least 3 characters long';
+                  } else if (value.trim().length > 50) {
+                    return 'Last name cannot be longer than 50 characters';
+                  }
+                  return null;
+                },
               ),
             ),
           ],
@@ -106,42 +128,18 @@ class _DriverInfoFormState extends State<DriverInfoForm> {
               currentValue = newValue.toString();
             });
           },
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'City is required';
+            }
+            return null;
+          },
           decoration: const InputDecoration(
             prefixIcon: Icon(Icons.location_on_rounded),
             border: OutlineInputBorder(),
           ),
         ),
         const Divider(thickness: 1.5),
-        // TextFormField(
-        //   obscureText: !passwordVisible,
-        //   decoration: InputDecoration(
-        //     prefixIcon: const Icon(Icons.lock_rounded),
-        //     suffixIcon: InkWell(
-        //         onTap: () {
-        //           setState(() {
-        //             passwordVisible = !passwordVisible;
-        //           });
-        //         },
-        //         child: const Icon(Icons.visibility_rounded)),
-        //     labelText: 'Password',
-        //     border: const OutlineInputBorder(),
-        //   ),
-        // ),
-        // TextFormField(
-        //   obscureText: !passwordVisible,
-        //   decoration: InputDecoration(
-        //     prefixIcon: const Icon(Icons.lock_rounded),
-        //     suffixIcon: InkWell(
-        //         onTap: () {
-        //           setState(() {
-        //             passwordVisible = !passwordVisible;
-        //           });
-        //         },
-        //         child: const Icon(Icons.visibility_rounded)),
-        //     labelText: 'Confirm Password',
-        //     border: const OutlineInputBorder(),
-        //   ),
-        // ),
         const MyPasswordField(label: 'Password'),
         const MyPasswordField(label: 'Confirm Password'),
       ],

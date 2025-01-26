@@ -33,13 +33,13 @@ class MyApp extends StatelessWidget {
         colorSchemeSeed: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      // home: StreamBuilder<User?>(
-      //   stream: FirebaseAuth.instance.authStateChanges(),
-      //   builder: (context, snapshot) {
-      //     return snapshot.hasData ? const Home() : const UserAuth();
-      //   },
-      // ),
-      home: const PhoneNumLogin(phoneNum: '91 148 2339'),
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          return snapshot.hasData ? const Home() : const UserAuth();
+        },
+      ),
+      // home: const PhoneNumLogin(phoneNum: '91 148 2339'),
       // home: const UserAuth(),
     );
   }
