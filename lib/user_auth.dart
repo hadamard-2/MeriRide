@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meri_ride/phone_num_text_field.dart';
@@ -68,7 +67,7 @@ class _UserAuthState extends State<UserAuth> {
                     color: Colors.black12,
                     spreadRadius: 5,
                     blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
+                    offset: Offset(0, 3),
                   ),
                 ],
               ),
@@ -117,7 +116,11 @@ class _UserAuthFormState extends State<UserAuthForm> {
               width: double.infinity,
               height: 48,
               child: ElevatedButton(
-                onPressed: _openDriverFormNavigator,
+                onPressed: () {
+                  if (formKey.currentState?.validate() ?? false) {
+                    _openDriverFormNavigator();
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   shape: RoundedRectangleBorder(
@@ -197,23 +200,6 @@ class SignInWithButton extends StatelessWidget {
         backgroundColor: Colors.transparent,
         shape: const CircleBorder(side: BorderSide(color: Colors.grey)),
       ),
-    );
-  }
-}
-
-class PhoneNumberInputFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
-    String digits = newValue.text.replaceAll(' ', ''); // Remove spaces
-    final buffer = StringBuffer();
-    for (int i = 0; i < digits.length; i++) {
-      if (i == 2 || i == 5) buffer.write(' '); // Add spaces at the right spots
-      buffer.write(digits[i]);
-    }
-    return TextEditingValue(
-      text: buffer.toString(),
-      selection: TextSelection.collapsed(offset: buffer.length),
     );
   }
 }

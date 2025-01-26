@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meri_ride/my_password_field.dart';
 import 'package:meri_ride/phone_num_text_field.dart';
 
 class DriverInfoForm extends StatefulWidget {
@@ -51,8 +52,8 @@ class _DriverInfoFormState extends State<DriverInfoForm> {
               ),
             ),
             Positioned(
-              top: 0,
-              right: 0,
+              top: -5,
+              right: -5,
               child: IconButton(
                 onPressed: () {},
                 icon: const Icon(
@@ -111,36 +112,38 @@ class _DriverInfoFormState extends State<DriverInfoForm> {
           ),
         ),
         const Divider(thickness: 1.5),
-        TextFormField(
-          obscureText: !passwordVisible,
-          decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.lock_rounded),
-            suffixIcon: InkWell(
-                onTap: () {
-                  setState(() {
-                    passwordVisible = !passwordVisible;
-                  });
-                },
-                child: const Icon(Icons.visibility_rounded)),
-            labelText: 'Password',
-            border: const OutlineInputBorder(),
-          ),
-        ),
-        TextFormField(
-          obscureText: !passwordVisible,
-          decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.lock_rounded),
-            suffixIcon: InkWell(
-                onTap: () {
-                  setState(() {
-                    passwordVisible = !passwordVisible;
-                  });
-                },
-                child: const Icon(Icons.visibility_rounded)),
-            labelText: 'Confirm Password',
-            border: const OutlineInputBorder(),
-          ),
-        ),
+        // TextFormField(
+        //   obscureText: !passwordVisible,
+        //   decoration: InputDecoration(
+        //     prefixIcon: const Icon(Icons.lock_rounded),
+        //     suffixIcon: InkWell(
+        //         onTap: () {
+        //           setState(() {
+        //             passwordVisible = !passwordVisible;
+        //           });
+        //         },
+        //         child: const Icon(Icons.visibility_rounded)),
+        //     labelText: 'Password',
+        //     border: const OutlineInputBorder(),
+        //   ),
+        // ),
+        // TextFormField(
+        //   obscureText: !passwordVisible,
+        //   decoration: InputDecoration(
+        //     prefixIcon: const Icon(Icons.lock_rounded),
+        //     suffixIcon: InkWell(
+        //         onTap: () {
+        //           setState(() {
+        //             passwordVisible = !passwordVisible;
+        //           });
+        //         },
+        //         child: const Icon(Icons.visibility_rounded)),
+        //     labelText: 'Confirm Password',
+        //     border: const OutlineInputBorder(),
+        //   ),
+        // ),
+        const MyPasswordField(label: 'Password'),
+        const MyPasswordField(label: 'Confirm Password'),
       ],
     );
   }
