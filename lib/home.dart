@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.blueGrey,
 
       key: _scaffoldKey,
-      drawer: const CustomDrawer(),
+      drawer: const MyDrawer(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
         child: Column(

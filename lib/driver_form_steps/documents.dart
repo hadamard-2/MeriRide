@@ -15,17 +15,19 @@ class Documents extends StatelessWidget {
         const Row(
           spacing: 20,
           children: [
-            Flexible(child: FileBrowser(labelText: 'Vehicle Ownership')),
-            Flexible(child: FileBrowser(labelText: 'Libre')),
+            Flexible(
+                child: RequiredFileBrowser(labelText: 'Vehicle Ownership')),
+            Flexible(child: RequiredFileBrowser(labelText: 'Libre')),
           ],
         ),
-        const Flexible(child: FileBrowser(labelText: 'Insurance')),
+        const Flexible(child: RequiredFileBrowser(labelText: 'Insurance')),
         const Divider(),
         const Row(
           spacing: 20,
           children: [
-            Flexible(child: FileBrowser(labelText: 'Business Registration')),
-            Flexible(child: FileBrowser(labelText: 'Business License')),
+            Flexible(
+                child: RequiredFileBrowser(labelText: 'Business Registration')),
+            Flexible(child: RequiredFileBrowser(labelText: 'Business License')),
           ],
         ),
         MyTextField(
@@ -52,14 +54,63 @@ class Documents extends StatelessWidget {
   }
 }
 
+class RequiredFileBrowser extends StatelessWidget {
+  final String labelText;
+  final int maxFileSize;
+
+  const RequiredFileBrowser({
+    super.key,
+    required this.labelText,
+    this.maxFileSize = 5 * 1024 * 1024,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FormField<PlatformFile>(
+      validator: (value) {
+        if (value == null) {
+          return '$labelText is required';
+        }
+        return null;
+      },
+      builder: (formFieldState) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FileBrowser(
+              labelText: labelText,
+              maxFileSize: maxFileSize,
+              onFileSelected: (file) => formFieldState.didChange(file),
+            ),
+            if (formFieldState.hasError)
+              Padding(
+                padding: const EdgeInsets.only(left: 12, top: 4),
+                child: Text(
+                  formFieldState.errorText!,
+                  style: const TextStyle(
+                    color: Colors.red,
+                    fontSize: 12,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
+    );
+  }
+}
+
 class FileBrowser extends StatefulWidget {
   final String labelText;
   final int maxFileSize;
+  final ValueChanged<PlatformFile?>? onFileSelected;
 
   const FileBrowser({
     super.key,
     required this.labelText,
-    this.maxFileSize = 5 * 1024 * 1024, // Default to 5MB
+    this.maxFileSize = 5 * 1024 * 1024,
+    this.onFileSelected,
   });
 
   @override
@@ -79,7 +130,6 @@ class FileBrowserState extends State<FileBrowser> {
       PlatformFile file = result.files.single;
 
       if (file.size > widget.maxFileSize) {
-        // Convert bytes to MB for display
         double maxSizeMB = widget.maxFileSize / (1024 * 1024);
         String maxSizeStr =
             maxSizeMB.toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '');
@@ -90,8 +140,7 @@ class FileBrowserState extends State<FileBrowser> {
           builder: (context) => AlertDialog(
             title: const Text('File too large'),
             content: Text(
-              'The selected file exceeds the maximum allowed size of $maxSizeStr MB. '
-              'Please choose a smaller file.',
+              'The selected file exceeds the maximum allowed size of $maxSizeStr MB.',
             ),
             actions: [
               TextButton(
@@ -101,13 +150,11 @@ class FileBrowserState extends State<FileBrowser> {
             ],
           ),
         );
-        return; // Disregard the file if it's too large
+        return;
       }
 
-      setState(() {
-        selectedFile = file;
-      });
-      debugPrint(selectedFile?.name);
+      setState(() => selectedFile = file);
+      widget.onFileSelected?.call(selectedFile);
     }
   }
 
@@ -119,9 +166,7 @@ class FileBrowserState extends State<FileBrowser> {
         decoration: InputDecoration(
           labelText: widget.labelText,
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         ),
@@ -133,8 +178,8 @@ class FileBrowserState extends State<FileBrowser> {
               const Icon(Icons.description_rounded, size: 20),
               const SizedBox(width: 8),
               Text(
-                selectedFile != null
-                    ? '${selectedFile?.name.substring(0, 10)}...'
+                selectedFile?.name != null
+                    ? '${selectedFile!.name.substring(0, selectedFile!.name.length.clamp(0, 10))}...'
                     : 'Select File',
               ),
             ],

@@ -118,7 +118,7 @@ class _UserAuthFormState extends State<UserAuthForm> {
               child: ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState?.validate() ?? false) {
-                    _openDriverFormNavigator();
+                    _openDriverFormNavigator(phoneNumController.text);
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -169,11 +169,11 @@ class _UserAuthFormState extends State<UserAuthForm> {
     );
   }
 
-  _openDriverFormNavigator() {
+  _openDriverFormNavigator(String phoneNum) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const DriverFormNavigator(),
+        builder: (context) => DriverFormNavigator(phoneNum: phoneNum),
       ),
     );
   }

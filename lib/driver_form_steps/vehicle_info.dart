@@ -43,6 +43,7 @@ class VehicleInfoForm extends StatelessWidget {
               inputFormatters: [
                 FilteringTextInputFormatter.deny(RegExp(r'[0-9]')),
               ],
+              validator: _validateColor,
             ),
             MyTextField(
               text: 'Year',
@@ -133,6 +134,14 @@ class VehicleInfoForm extends StatelessWidget {
     if (value == null || value.isEmpty) return 'License Plate is required';
     if (!RegExp(r'^[A-Za-z]?\d{5}$').hasMatch(value)) {
       return 'Please enter a valid license plate (e.g., A12345 or 12345)';
+    }
+    return null;
+  }
+
+  static String? _validateColor(String? value) {
+    if (value == null || value.isEmpty) return 'Color is required';
+    if (value.length < 3 || value.length > 25) {
+      return 'Must be between 3 and 25 characters';
     }
     return null;
   }

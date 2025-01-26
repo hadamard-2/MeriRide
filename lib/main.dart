@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:meri_ride/phone_num_login.dart';
 import 'package:meri_ride/user_auth.dart';
 import 'package:meri_ride/home.dart';
 import 'package:meri_ride/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:meri_ride/services/api_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
