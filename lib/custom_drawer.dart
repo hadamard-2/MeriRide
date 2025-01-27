@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:meri_ride/credits.dart';
+import 'package:meri_ride/driver.dart';
 
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({super.key});
+  final Driver driver;
+
+  const MyDrawer({super.key, required this.driver});
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +17,14 @@ class MyDrawer extends StatelessWidget {
         children: [
           UserAccountsDrawerHeader(
             accountName: Text(
-              'Lemma Derese',
+              '${driver.firstName} ${driver.lastName}',
               style: textTheme.titleMedium?.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
             accountEmail: Text(
-              '+251 98 765 4321',
+              driver.phoneNumber,
               style: textTheme.bodyMedium?.copyWith(
                 color: Colors.white,
               ),
@@ -29,7 +32,7 @@ class MyDrawer extends StatelessWidget {
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
               child: Text(
-                'LD',
+                '${driver.firstName[0]}${driver.lastName[0]}',
                 style: textTheme.headlineSmall?.copyWith(
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.bold,

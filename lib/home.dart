@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:meri_ride/custom_drawer.dart';
+import 'package:meri_ride/driver.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final Driver driver;
+
+  const Home({super.key, required this.driver});
 
   @override
   State<Home> createState() => _HomeState();
@@ -20,7 +23,7 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.blueGrey,
 
       key: _scaffoldKey,
-      drawer: const MyDrawer(),
+      drawer: MyDrawer(driver: widget.driver),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
         child: Column(

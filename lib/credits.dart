@@ -123,10 +123,10 @@ class CreditsPage extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               'ETB $price',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
-                color: Colors.green,
+                color: Colors.blue.shade800,
               ),
             ),
           ],
@@ -202,7 +202,7 @@ class CreditsPage extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.blue.shade800,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),

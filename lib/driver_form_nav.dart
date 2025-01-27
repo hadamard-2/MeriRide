@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:meri_ride/driver.dart';
 import 'package:meri_ride/driver_form_steps/driver_info.dart';
 import 'package:meri_ride/driver_form_steps/vehicle_info.dart';
 import 'package:meri_ride/driver_form_steps/documents.dart';
@@ -177,7 +178,16 @@ class _DriverFormNavigatorState extends State<DriverFormNavigator> {
           if (mounted) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const Home()),
+              MaterialPageRoute(
+                builder: (context) => Home(
+                  driver: Driver(
+                    firstName: firstNameController.text,
+                    lastName: lastNameController.text,
+                    phoneNumber:
+                        '0${widget.phoneNum?.replaceAll(' ', '') ?? ''}',
+                  ),
+                ),
+              ),
             );
           }
         } else {

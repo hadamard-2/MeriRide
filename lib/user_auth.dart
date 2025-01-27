@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meri_ride/phone_num_login.dart';
 import 'package:meri_ride/phone_num_text_field.dart';
 import 'package:meri_ride/driver_form_nav.dart';
 import 'package:meri_ride/services/auth_service.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class UserAuth extends StatefulWidget {
   const UserAuth({super.key});
@@ -116,9 +119,43 @@ class _UserAuthFormState extends State<UserAuthForm> {
               width: double.infinity,
               height: 48,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  final navigator = Navigator.of(context);
+                  final snackBarMessenger = ScaffoldMessenger.of(context);
+
                   if (formKey.currentState?.validate() ?? false) {
-                    _openDriverFormNavigator(phoneNumController.text);
+                    try {
+                      final response = await http.post(
+                        Uri.parse(
+                            'http://meri-ride-server.test/api/check-driver-exists'),
+                        headers: {'Content-Type': 'application/json'},
+                        body: jsonEncode({
+                          'phone_number':
+                              '0${phoneNumController.text.replaceAll(' ', '')}'
+                        }),
+                      );
+
+                      if (response.statusCode == 200) {
+                        navigator.push(
+                          MaterialPageRoute(
+                            builder: (_) => PhoneNumLogin(
+                                phoneNum: phoneNumController.text),
+                          ),
+                        );
+                      } else if (response.statusCode == 404) {
+                        _openDriverFormNavigator(phoneNumController.text);
+                      } else {
+                        snackBarMessenger.showSnackBar(
+                          const SnackBar(
+                              content: Text('Unexpected error occurred.')),
+                        );
+                      }
+                    } catch (e) {
+                      snackBarMessenger.showSnackBar(
+                        const SnackBar(
+                            content: Text('Failed to connect to the server.')),
+                      );
+                    }
                   }
                 },
                 style: ElevatedButton.styleFrom(

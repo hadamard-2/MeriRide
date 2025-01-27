@@ -1,17 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meri_ride/driver.dart';
+import 'package:meri_ride/home.dart';
 import 'package:meri_ride/my_password_field.dart';
 import 'package:meri_ride/phone_num_text_field.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class PhoneNumLogin extends StatelessWidget {
+class PhoneNumLogin extends StatefulWidget {
   final String? phoneNum;
   const PhoneNumLogin({super.key, this.phoneNum});
 
   @override
-  Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    var phoneNumController = TextEditingController(text: phoneNum);
+  State<PhoneNumLogin> createState() => _LoginScreenState();
+}
 
+class _LoginScreenState extends State<PhoneNumLogin> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late TextEditingController phoneNumberController;
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    phoneNumberController = TextEditingController(text: widget.phoneNum);
+  }
+
+  Future<void> login() async {
+    final response = await http.post(
+      Uri.parse('http://meri-ride-server.test/api/login-driver'),
+      body: {
+        'phone_number': '0${(phoneNumberController.text.replaceAll(' ', ''))}',
+        'password': passwordController.text,
+      },
+    );
+
+    if (!mounted) return; // Guard for context usage
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body)['data']['driver'];
+      final driver = Driver(
+        firstName: data['first_name'],
+        lastName: data['last_name'],
+        phoneNumber: data['phone_number'],
+      );
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (builder) => Home(driver: driver),
+          ));
+    } else {
+      final errorMessage = json.decode(response.body)['message'];
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
         key: formKey,
@@ -31,15 +77,15 @@ class PhoneNumLogin extends StatelessWidget {
                   ),
                 ),
               ),
-              PhoneNumTextField(phoneNumController: phoneNumController),
-              const MyPasswordField(label: 'Password'),
+              PhoneNumTextField(phoneNumController: phoneNumberController),
+              MyPasswordField(label: 'Password', controller: passwordController),
               SizedBox(
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState?.validate() ?? false) {
-                      // send login credentials to the backend and wait for approval
+                      login();
                     }
                   },
                   style: ElevatedButton.styleFrom(
