@@ -4,7 +4,22 @@ import 'package:flutter/services.dart';
 import 'package:meri_ride/my_text_field.dart';
 
 class Documents extends StatelessWidget {
-  const Documents({super.key});
+  final TextEditingController tinController;
+  final ValueChanged<PlatformFile?> onVehicleOwnershipSelected;
+  final ValueChanged<PlatformFile?> onLibreSelected;
+  final ValueChanged<PlatformFile?> onInsuranceSelected;
+  final ValueChanged<PlatformFile?> onBusinessRegistrationSelected;
+  final ValueChanged<PlatformFile?> onBusinessLicenseSelected;
+
+  const Documents({
+    super.key,
+    required this.tinController,
+    required this.onVehicleOwnershipSelected,
+    required this.onLibreSelected,
+    required this.onInsuranceSelected,
+    required this.onBusinessRegistrationSelected,
+    required this.onBusinessLicenseSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,25 +27,49 @@ class Documents extends StatelessWidget {
       spacing: 20,
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Row(
+        Row(
           spacing: 20,
           children: [
             Flexible(
-                child: RequiredFileBrowser(labelText: 'Vehicle Ownership')),
-            Flexible(child: RequiredFileBrowser(labelText: 'Libre')),
+              child: RequiredFileBrowser(
+                onFileSelected: onVehicleOwnershipSelected,
+                labelText: 'Vehicle Ownership',
+              ),
+            ),
+            Flexible(
+              child: RequiredFileBrowser(
+                onFileSelected: onLibreSelected,
+                labelText: 'Libre',
+              ),
+            ),
           ],
         ),
-        const Flexible(child: RequiredFileBrowser(labelText: 'Insurance')),
+        Flexible(
+          child: RequiredFileBrowser(
+            onFileSelected: onInsuranceSelected,
+            labelText: 'Insurance',
+          ),
+        ),
         const Divider(),
-        const Row(
+        Row(
           spacing: 20,
           children: [
             Flexible(
-                child: RequiredFileBrowser(labelText: 'Business Registration')),
-            Flexible(child: RequiredFileBrowser(labelText: 'Business License')),
+              child: RequiredFileBrowser(
+                onFileSelected: onBusinessRegistrationSelected,
+                labelText: 'Business Registration',
+              ),
+            ),
+            Flexible(
+              child: RequiredFileBrowser(
+                onFileSelected: onBusinessLicenseSelected,
+                labelText: 'Business License',
+              ),
+            ),
           ],
         ),
         MyTextField(
+          controller: tinController,
           text: 'TIN',
           prefixIcon: const Icon(Icons.account_balance_rounded),
           inputFormatters: [
@@ -57,10 +96,12 @@ class Documents extends StatelessWidget {
 class RequiredFileBrowser extends StatelessWidget {
   final String labelText;
   final int maxFileSize;
+  final void Function(PlatformFile?) onFileSelected;
 
   const RequiredFileBrowser({
     super.key,
     required this.labelText,
+    required this.onFileSelected,
     this.maxFileSize = 5 * 1024 * 1024,
   });
 
@@ -80,7 +121,10 @@ class RequiredFileBrowser extends StatelessWidget {
             FileBrowser(
               labelText: labelText,
               maxFileSize: maxFileSize,
-              onFileSelected: (file) => formFieldState.didChange(file),
+              onFileSelected: (file) {
+                onFileSelected(file);
+                formFieldState.didChange(file);
+              },
             ),
             if (formFieldState.hasError)
               Padding(

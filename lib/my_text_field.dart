@@ -7,6 +7,7 @@ class MyTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
+  final TextEditingController? controller;
 
   const MyTextField({
     super.key,
@@ -15,12 +16,14 @@ class MyTextField extends StatelessWidget {
     this.validator,
     this.inputFormatters,
     this.keyboardType,
+    this.controller
   });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: TextFormField(
+        controller: controller,
         decoration: InputDecoration(
           prefixIcon: prefixIcon,
           labelText: text,

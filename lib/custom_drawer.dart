@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meri_ride/credits.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -46,6 +47,19 @@ class MyDrawer extends StatelessWidget {
             onTap: () {
               // Handle profile tap
               Navigator.pop(context);
+            },
+          ),
+          MyListTile(
+            textTheme: textTheme,
+            text: 'MeriCredit',
+            leadingIconData: Icons.credit_card_rounded,
+            onTap: () {
+              // Handle profile tap
+              // Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CreditsPage()),
+              );
             },
           ),
           MyListTile(

@@ -4,7 +4,34 @@ import 'package:flutter/services.dart';
 import 'package:meri_ride/my_text_field.dart';
 
 class VehicleInfoForm extends StatelessWidget {
-  const VehicleInfoForm({super.key});
+  final TextEditingController makeController;
+  final TextEditingController modelController;
+  final TextEditingController colorController;
+  final TextEditingController yearController;
+  final TextEditingController licenseNoController;
+  final TextEditingController licensePlateController;
+  final String selectedCountry;
+  final ValueChanged<String> onCountryChanged;
+  final DateTime licenseIssueDate;
+  final DateTime licenseExpiryDate;
+  final ValueChanged<DateTime> onIssueDateChanged;
+  final ValueChanged<DateTime> onExpiryDateChanged;
+
+  const VehicleInfoForm({
+    super.key,
+    required this.makeController,
+    required this.modelController,
+    required this.colorController,
+    required this.yearController,
+    required this.licenseNoController,
+    required this.licensePlateController,
+    required this.selectedCountry,
+    required this.onCountryChanged,
+    required this.licenseIssueDate,
+    required this.licenseExpiryDate,
+    required this.onIssueDateChanged,
+    required this.onExpiryDateChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +46,19 @@ class VehicleInfoForm extends StatelessWidget {
             ),
           ],
         ),
-        const Row(
+        Row(
           spacing: 20,
           children: [
             MyTextField(
+              controller: makeController,
               text: 'Make',
-              prefixIcon: Icon(Icons.directions_car),
+              prefixIcon: const Icon(Icons.directions_car),
               validator: _validateMakeModel,
             ),
             MyTextField(
+              controller: modelController,
               text: 'Model',
-              prefixIcon: Icon(Icons.garage_rounded),
+              prefixIcon: const Icon(Icons.garage_rounded),
               validator: _validateMakeModel,
             ),
           ],
@@ -38,6 +67,7 @@ class VehicleInfoForm extends StatelessWidget {
           spacing: 20,
           children: [
             MyTextField(
+              controller: colorController,
               text: 'Color',
               prefixIcon: const Icon(Icons.color_lens),
               inputFormatters: [
@@ -46,6 +76,7 @@ class VehicleInfoForm extends StatelessWidget {
               validator: _validateColor,
             ),
             MyTextField(
+              controller: yearController,
               text: 'Year',
               prefixIcon: const Icon(Icons.calendar_today),
               inputFormatters: [
@@ -69,12 +100,14 @@ class VehicleInfoForm extends StatelessWidget {
           spacing: 20,
           children: [
             MyTextField(
+              controller: licenseNoController,
               text: 'License No.',
               prefixIcon: const Icon(Icons.numbers_rounded),
               inputFormatters: [LengthLimitingTextInputFormatter(9)],
               validator: _validateLicenseNumber,
             ),
             MyTextField(
+              controller: licensePlateController,
               text: 'License Plate',
               prefixIcon: const Icon(Icons.confirmation_num_rounded),
               inputFormatters: [
@@ -85,16 +118,24 @@ class VehicleInfoForm extends StatelessWidget {
             ),
           ],
         ),
-        const CountryPicker(labelText: 'License Country'),
+        CountryPicker(
+          selectedCountry: selectedCountry,
+          onCountrySelected: onCountryChanged,
+          labelText: 'License Country',
+        ),
         Row(
           spacing: 20,
           children: [
             DatePicker(
+              selectedDate: licenseIssueDate,
+              onDateSelected: onIssueDateChanged,
               labelText: 'License Issue Date',
               firstDate: DateTime.now().subtract(const Duration(days: 5 * 365)),
               lastDate: DateTime.now(),
             ),
             DatePicker(
+              selectedDate: licenseExpiryDate,
+              onDateSelected: onExpiryDateChanged,
               labelText: 'License Expiry Date',
               firstDate: DateTime.now(),
               lastDate: DateTime.now().add(const Duration(days: 5 * 365)),
@@ -149,20 +190,23 @@ class VehicleInfoForm extends StatelessWidget {
 
 class CountryPicker extends StatefulWidget {
   final String labelText;
+  final String selectedCountry;
+  final void Function(String) onCountrySelected;
 
-  const CountryPicker({super.key, required this.labelText});
+  const CountryPicker({
+    super.key,
+    required this.labelText,
+    required this.selectedCountry,
+    required this.onCountrySelected,
+  });
 
   @override
   State<CountryPicker> createState() => _CountryPickerState();
 }
 
 class _CountryPickerState extends State<CountryPicker> {
-  String selectedCountry = 'Ethiopia';
-
   selectCountry(Country newSelection) {
-    setState(() {
-      selectedCountry = newSelection.name;
-    });
+    widget.onCountrySelected(newSelection.name);
   }
 
   @override
@@ -200,7 +244,7 @@ class _CountryPickerState extends State<CountryPicker> {
             children: [
               const Icon(Icons.flag_rounded, size: 20),
               const SizedBox(width: 8),
-              Text(selectedCountry),
+              Text(widget.selectedCountry),
             ],
           ),
         ),
@@ -214,11 +258,16 @@ class DatePicker extends StatefulWidget {
   final DateTime? firstDate;
   final DateTime? lastDate;
 
+  final DateTime selectedDate;
+  final void Function(DateTime) onDateSelected;
+
   const DatePicker({
     super.key,
     required this.labelText,
     this.firstDate,
     this.lastDate,
+    required this.selectedDate,
+    required this.onDateSelected,
   });
 
   @override
@@ -226,18 +275,19 @@ class DatePicker extends StatefulWidget {
 }
 
 class DatePickerState extends State<DatePicker> {
-  DateTime selectedDate = DateTime.now();
+  DateTime pickedDate = DateTime.now();
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: pickedDate,
       firstDate: widget.firstDate ?? DateTime(2000),
       lastDate: widget.lastDate ?? DateTime(2100),
     );
 
-    if (picked != null && picked != selectedDate) {
-      setState(() => selectedDate = picked);
+    if (picked != null && picked != pickedDate) {
+      setState(() => pickedDate = picked);
+      widget.onDateSelected(picked);
     }
   }
 
@@ -263,7 +313,7 @@ class DatePickerState extends State<DatePicker> {
               children: [
                 const Icon(Icons.calendar_today, size: 20),
                 const SizedBox(width: 8),
-                Text("${selectedDate.toLocal()}".split(' ')[0]),
+                Text("${pickedDate.toLocal()}".split(' ')[0]),
               ],
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+// import 'package:meri_ride/credits.dart';
 import 'package:meri_ride/user_auth.dart';
 import 'package:meri_ride/home.dart';
 import 'package:meri_ride/firebase_options.dart';
@@ -37,8 +38,7 @@ class MyApp extends StatelessWidget {
           return snapshot.hasData ? const Home() : const UserAuth();
         },
       ),
-      // home: const PhoneNumLogin(phoneNum: '91 148 2339'),
-      // home: const UserAuth(),
+      // home: CreditsPage(),
     );
   }
 }
