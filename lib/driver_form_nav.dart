@@ -94,7 +94,8 @@ class _DriverFormNavigatorState extends State<DriverFormNavigator> {
       debugPrint('Form validation passed. Creating multipart request...');
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse('http://meri-ride-server.test/api/register-driver'),
+        Uri.parse(
+            'https://906c-89-41-26-60.ngrok-free.app/api/register-driver'),
       );
 
       // Add text fields

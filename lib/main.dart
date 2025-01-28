@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       //     return snapshot.hasData ? const Home() : const UserAuth();
       //   },
       // ),
-      home: const CreditsPage(),
+      home: const UserAuth(),
     );
   }
 }

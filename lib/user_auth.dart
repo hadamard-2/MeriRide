@@ -127,7 +127,7 @@ class _UserAuthFormState extends State<UserAuthForm> {
                     try {
                       final response = await http.post(
                         Uri.parse(
-                            'http://meri-ride-server.test/api/check-driver-exists'),
+                            'https://906c-89-41-26-60.ngrok-free.app/api/check-driver-exists'),
                         headers: {'Content-Type': 'application/json'},
                         body: jsonEncode({
                           'phone_number':

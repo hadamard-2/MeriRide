@@ -28,7 +28,7 @@ class _LoginScreenState extends State<PhoneNumLogin> {
 
   Future<void> login() async {
     final response = await http.post(
-      Uri.parse('http://meri-ride-server.test/api/login-driver'),
+      Uri.parse('https://906c-89-41-26-60.ngrok-free.app/api/login-driver'),
       body: {
         'phone_number': '0${(phoneNumberController.text.replaceAll(' ', ''))}',
         'password': passwordController.text,
@@ -58,52 +58,57 @@ class _LoginScreenState extends State<PhoneNumLogin> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Form(
-        key: formKey,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 20,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: Text(
-                  'MeriRide',
-                  style: GoogleFonts.titilliumWeb(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              PhoneNumTextField(phoneNumController: phoneNumberController),
-              MyPasswordField(label: 'Password', controller: passwordController),
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (formKey.currentState?.validate() ?? false) {
-                      login();
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                  ),
-                  child: const Text(
-                    'Sign In',
-                    style: TextStyle(
-                      color: Colors.white,
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Scaffold(
+        appBar: AppBar(),
+        body: Form(
+          key: formKey,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 20,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Text(
+                    'MeriRide | Login',
+                    style: GoogleFonts.titilliumWeb(
+                      fontSize: 32,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-              ),
-            ],
+                PhoneNumTextField(phoneNumController: phoneNumberController),
+                MyPasswordField(
+                    label: 'Password', controller: passwordController),
+                SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (formKey.currentState?.validate() ?? false) {
+                        login();
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                    child: const Text(
+                      'Sign In',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

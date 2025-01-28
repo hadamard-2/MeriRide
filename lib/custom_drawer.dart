@@ -61,7 +61,7 @@ class MyDrawer extends StatelessWidget {
               // Navigator.pop(context);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const CreditsPage()),
+                MaterialPageRoute(builder: (context) => CreditsPage(driver: driver)),
               );
             },
           ),

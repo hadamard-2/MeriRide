@@ -1,7 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:meri_ride/driver.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart';
 
 class CreditsPage extends StatelessWidget {
-  const CreditsPage({super.key});
+  final Driver driver;
+
+  const CreditsPage({super.key, required this.driver});
+
+  Future<void> initializePayment(BuildContext context, String price) async {
+    try {
+      final url = Uri.parse('https://906c-89-41-26-60.ngrok-free.app/api/pay');
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'amount': int.parse(price),
+          'phone_number': driver.phoneNumber,
+          'first_name': driver.firstName,
+          'last_name': driver.lastName,
+          'title': 'MeriRide Credits',
+          'description': 'Purchase of $price ETB for MeriRide Credits',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        if (responseData['status'] == 'success') {
+          final checkoutUrl = responseData['checkout_url'];
+          if (await canLaunchUrl(Uri.parse(checkoutUrl))) {
+            await launchUrl(
+              Uri.parse(checkoutUrl),
+              mode: LaunchMode.externalApplication,
+            );
+          } else {
+            throw 'Could not launch payment URL';
+          }
+        } else {
+          throw responseData['message'] ?? 'Payment initialization failed';
+        }
+      } else {
+        throw 'HTTP error ${response.statusCode}: ${response.body}';
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Payment failed: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +186,8 @@ class CreditsPage extends StatelessWidget {
   }
 
   void _showPaymentSheet(BuildContext context, String amount, String price) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final outerContext = context;
+    final colorScheme = Theme.of(outerContext).colorScheme;
 
     showModalBottomSheet(
       context: context,
@@ -262,6 +313,8 @@ class CreditsPage extends StatelessWidget {
                             backgroundColor: colorScheme.primary,
                           ),
                         );
+
+                        initializePayment(outerContext, price);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: colorScheme.primary,

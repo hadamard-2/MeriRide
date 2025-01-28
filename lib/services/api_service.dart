@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  final String baseUrl = 'http://meri-ride-server.test/api';
+  final String baseUrl = 'https://906c-89-41-26-60.ngrok-free.app/api';
 
   Future<List<dynamic>> getUsers() async {
     final response = await http.get(Uri.parse('$baseUrl/hello_api'));
